@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Brake Disc Sizes</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        height: 100vh;
+    }
+    .column {
+        flex: 1;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+        padding: 10px;
+    }
+    .column:last-child {
+        border-right: none;
+    }
+    h2 {
+        text-align: center;
+        margin-top: 0;
+    }
+    .item {
+        padding: 8px;
+        margin: 5px 0;
+        background: #f8f8f8;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .item:hover {
+        background: #ddd;
+    }
+    .active {
+        background: #4CAF50;
+        color: white;
+    }
+    .spec {
+        font-size: 16px;
+        padding: 8px;
+        background: #f0f0f0;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div class="column" id="brandCol">
+    <h2>Brand</h2>
+</div>
+<div class="column" id="modelCol">
+    <h2>Model</h2>
+</div>
+<div class="column" id="specCol">
+    <h2>Disc Size</h2>
+</div>
+
+<script>
+const data = {
+    "Mercedes-Benz AMG": [
+        { model: "AMG GT R / GT Black Series", front: "402 mm × 38 mm", rear: "360 mm × 34 mm" },
+        { model: "AMG C63 S (W205)", front: "390 mm × 36 mm", rear: "360 mm × 30 mm" },
+        { model: "AMG E63 S (W213)", front: "400 mm × 40 mm", rear: "360 mm × 36 mm" },
+        { model: "S-Class Maybach (W223)", front: "420 mm × 40 mm", rear: "380 mm × 36 mm" },
+        { model: "AMG G63 (W463)", front: "402 mm × 38 mm", rear: "360 mm × 34 mm" },
+        { model: "AMG One", front: "398 mm × 38 mm", rear: "380 mm × 34 mm" }
+    ],
+    "Ferrari": [
+        { model: "488 GTB / Spider", front: "398 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "812 Superfast / GTS", front: "398 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "F8 Tributo", front: "398 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "SF90 Stradale", front: "398 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "LaFerrari", front: "398 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "296 GTB", front: "398 mm × 38 mm", rear: "360 mm × 32 mm" }
+    ],
+    "Lamborghini": [
+        { model: "Huracán", front: "365 mm × 34 mm", rear: "356 mm × 32 mm" },
+        { model: "Aventador", front: "400 mm × 38 mm", rear: "356 mm × 32 mm" },
+        { model: "Urus", front: "420 mm × 40 mm", rear: "370 mm × 36 mm" },
+        { model: "Gallardo LP 570-4", front: "380 mm × 34 mm", rear: "356 mm × 32 mm" }
+    ],
+    "McLaren": [
+        { model: "720S", front: "398 mm × 38 mm", rear: "380 mm × 34 mm" },
+        { model: "570S", front: "390 mm × 36 mm", rear: "380 mm × 34 mm" },
+        { model: "P1", front: "398 mm × 38 mm", rear: "380 mm × 34 mm" },
+        { model: "Senna", front: "398 mm × 38 mm", rear: "380 mm × 34 mm" },
+        { model: "Artura", front: "398 mm × 38 mm", rear: "380 mm × 34 mm" }
+    ],
+    "Maserati": [
+        { model: "GranTurismo MC", front: "380 mm × 34 mm", rear: "360 mm × 32 mm" },
+        { model: "Quattroporte GTS", front: "380 mm × 34 mm", rear: "360 mm × 32 mm" },
+        { model: "Levante Trofeo", front: "400 mm × 38 mm", rear: "370 mm × 36 mm" }
+    ],
+    "Bugatti": [
+        { model: "Veyron", front: "420 mm × 38 mm", rear: "400 mm × 36 mm" },
+        { model: "Chiron", front: "420 mm × 38 mm", rear: "400 mm × 36 mm" },
+        { model: "Divo", front: "420 mm × 38 mm", rear: "400 mm × 36 mm" },
+        { model: "Centodieci", front: "420 mm × 38 mm", rear: "400 mm × 36 mm" }
+    ],
+    "Koenigsegg": [
+        { model: "Agera RS", front: "405 mm × 38 mm", rear: "380 mm × 32 mm" },
+        { model: "Regera", front: "405 mm × 38 mm", rear: "380 mm × 32 mm" },
+        { model: "Jesko", front: "410 mm × 40 mm", rear: "380 mm × 34 mm" }
+    ],
+    "Aston Martin": [
+        { model: "DB11 AMR", front: "410 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "Vantage", front: "410 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "DBS Superleggera", front: "410 mm × 38 mm", rear: "360 mm × 32 mm" },
+        { model: "Valkyrie", front: "410 mm × 38 mm", rear: "380 mm × 34 mm" }
+    ],
+    "Porsche": [
+        { model: "911 Carrera S / 4S (992)", front: "410 mm × 36 mm", rear: "390 mm × 32 mm" },
+        { model: "911 Turbo / Turbo S (991)", front: "410 mm × 36 mm", rear: "390 mm × 32 mm" },
+        { model: "911 Turbo S (992)", front: "420 mm × 40 mm", rear: "390 mm × 32 mm" },
+        { model: "911 GT3 RS (991, PCCB)", front: "410 mm × 36 mm", rear: "390 mm × 32 mm" }
+    ]
+};
+
+const brandCol = document.getElementById("brandCol");
+const modelCol = document.getElementById("modelCol");
+const specCol = document.getElementById("specCol");
+
+Object.keys(data).forEach(brand => {
+    let div = document.createElement("div");
+    div.className = "item";
+    div.textContent = brand;
+    div.onclick = () => {
+        document.querySelectorAll("#brandCol .item").forEach(el => el.classList.remove("active"));
+        div.classList.add("active");
+        modelCol.innerHTML = "<h2>Model</h2>";
+        specCol.innerHTML = "<h2>Disc Size</h2>";
+        data[brand].forEach(car => {
+            let mDiv = document.createElement("div");
+            mDiv.className = "item";
+            mDiv.textContent = car.model;
+            mDiv.onclick = () => {
+                document.querySelectorAll("#modelCol .item").forEach(el => el.classList.remove("active"));
+                mDiv.classList.add("active");
+                specCol.innerHTML = "<h2>Disc Size</h2>" +
+                    `<div class="spec">Front Disc: ${car.front}</div>` +
+                    `<div class="spec">Rear Disc: ${car.rear}</div>`;
+            };
+            modelCol.appendChild(mDiv);
+        });
+    };
+    brandCol.appendChild(div);
+});
+</script>
+</body>
+</html>
